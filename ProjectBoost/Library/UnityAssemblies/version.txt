@@ -1,5 +1,5 @@
 2017.1.1f1:2.8.0.0
-StandaloneWindows64
+WebGL
 C:/Users/ThatGuyMiniB/Desktop/Unity2017Stable/Editor/Data/Managed/UnityEditor.dll
 C:/Users/ThatGuyMiniB/Desktop/Unity2017Stable/Editor/Data/Managed/UnityEngine.dll
 C:/Users/ThatGuyMiniB/Desktop/Unity2017Stable/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll

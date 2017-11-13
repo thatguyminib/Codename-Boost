@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour {
 
@@ -10,6 +11,9 @@ public class Rocket : MonoBehaviour {
     Rigidbody rigidBody;
     AudioSource audioSource;
 
+    enum State { Alive, Dying, Transending};
+    State state = State.Alive;
+
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
@@ -17,9 +21,43 @@ public class Rocket : MonoBehaviour {
 	
 
 	void Update () {
-        Thrust();
-        Rotate();
+        //todo somewhere stop sound on death
+        if (state == State.Alive)
+        {
+            Thrust();
+            Rotate();
+        }
 	}
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(state != State.Alive) { return; }
+
+        switch (collision.gameObject.tag)
+        {
+            case "Friendly":
+                // do nothing
+                break;
+            case "Finish":
+                state = State.Transending;
+                Invoke("LoadNextScene", 1f); //todo parameterise time
+                break;
+            default:
+                state = State.Dying;
+                Invoke("ReloadLevelOnDeath", 1f); //todo parameterise time
+                break;
+        }
+    }
+
+    private void ReloadLevelOnDeath()
+    {
+        SceneManager.LoadScene(0, LoadSceneMode.Single); // todo reload current scene
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene(1, LoadSceneMode.Single); // todo allow more than two levels
+    }
 
     private void Thrust()
     {
